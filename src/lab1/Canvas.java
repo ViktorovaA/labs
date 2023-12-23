@@ -16,11 +16,14 @@ public class Canvas {
     lab1.figure.Circle circle;
     /** прямоугольник **/
     lab1.figure.Rectangle rectangle;
+    /** отрезок **/
+    lab1.figure.Line line;
     private JPanel layout;
     private JPanel btnLayout;
     /** кнопки **/
-    private JButton btnCreateRectangle, btnCreateCircle, btnDelete, btnMoveToRectangle, btnMoveToCircle,
-            btnSetRectangleWidth, btnSetRectangleHeight, btnSetCircleRadius;
+    private JButton btnCreateRectangle, btnCreateCircle, btnMoveToRectangle, btnMoveToCircle,
+            btnSetRectangleWidth, btnSetRectangleHeight, btnSetCircleRadius, btnCreateLine, btnMoveToLine,
+            btnSetLineAngle, btnSetLineLength;
 
     /** конструктор **/
     public Canvas() {
@@ -30,7 +33,7 @@ public class Canvas {
 
         // создание места отображения кнопок
         btnLayout = new JPanel();
-        btnLayout.setLayout(new FlowLayout());
+        btnLayout.setLayout(new GridLayout(3, 6, 10, 10));
 
         // создание кнопок
         btnCreateRectangle = new JButton("Создать прямоугольник");
@@ -41,6 +44,13 @@ public class Canvas {
         btnSetRectangleHeight = new JButton("высота");
         btnSetCircleRadius = new JButton("радиус");
 
+        btnCreateLine = new JButton("Создать отрезок");
+        btnMoveToLine = new JButton("переместить отрезок");
+        btnSetLineAngle = new JButton("повернуть отрезок");
+        btnSetLineLength = new JButton("длина отрезка");
+
+
+
         // listener - реагирование на нажатие кнопок
         btnCreateRectangle.addActionListener(new BListener(this));
         btnCreateCircle.addActionListener(new BListener(this));
@@ -50,14 +60,25 @@ public class Canvas {
         btnSetRectangleHeight.addActionListener(new BListener(this));
         btnSetCircleRadius.addActionListener(new BListener(this));
 
+        btnCreateLine.addActionListener(new BListener(this));
+        btnMoveToLine.addActionListener(new BListener(this));
+        btnSetLineAngle.addActionListener(new BListener(this));
+        btnSetLineLength.addActionListener(new BListener(this));
+
         // добавление кнопок в место их отображения
         btnLayout.add(btnCreateRectangle);
-        btnLayout.add(btnCreateCircle);
         btnLayout.add(btnMoveToRectangle);
-        btnLayout.add(btnMoveToCircle);
         btnLayout.add(btnSetRectangleWidth);
         btnLayout.add(btnSetRectangleHeight);
+
+        btnLayout.add(btnCreateCircle);
+        btnLayout.add(btnMoveToCircle);
         btnLayout.add(btnSetCircleRadius);
+
+        btnLayout.add(btnCreateLine);
+        btnLayout.add(btnMoveToLine);
+        btnLayout.add(btnSetLineAngle);
+        btnLayout.add(btnSetLineLength);
 
         // ширина и высота окна
         int width = 1000;
@@ -74,8 +95,10 @@ public class Canvas {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
+        // фигуры
         circle = null;
         rectangle = null;
+        line = null;
     }
 
     // реагирование на нажатие кнопок
@@ -90,7 +113,7 @@ public class Canvas {
             // создать прямоугольник
             if (e.getSource() == btnCreateRectangle) {
                 if(rectangle != null) return;
-                
+
                 rectangle = new lab1.figure.Rectangle(400, 200, 100,50);
                 canvas.layout.add(rectangle);
                 canvas.layout.validate();
@@ -142,6 +165,37 @@ public class Canvas {
                 if(circle == null) return;
 
                 circle.setRadius((int) (Math.random() * 100));
+                canvas.layout.revalidate();
+                canvas.layout.repaint();
+            }
+            // создать отрезок
+            if (e.getSource() == btnCreateLine) {
+                if(line != null) return;
+
+                line = new lab1.figure.Line(400, 200, 70, 90);
+                canvas.layout.add(line);
+                canvas.layout.validate();
+                canvas.layout.repaint();
+            }
+            // передвинуть отрезок
+            if (e.getSource() == btnMoveToLine) {
+                if(line == null) return;
+
+                line.moveTo((int) (Math.random() * 100) - 50, (int) (Math.random() * 100) - 50);
+                canvas.layout.revalidate();
+                canvas.layout.repaint();
+            }
+            if (e.getSource() == btnSetLineAngle) {
+                if(line == null) return;
+
+                line.setAngle((int) (Math.random() * 360) - 180);
+                canvas.layout.revalidate();
+                canvas.layout.repaint();
+            }
+            if (e.getSource() == btnSetLineLength) {
+                if(line == null) return;
+
+                line.setLength((int) (Math.random() * 200) - 100);
                 canvas.layout.revalidate();
                 canvas.layout.repaint();
             }
