@@ -29,7 +29,7 @@ public class Circle extends JPanel {
         this.repaint();
     }
     public void moveTo(int dx, int dy) {
-        this.point.set(this.point.getX() + dx, this.point.getY() + dy);
+        point.set(point.getX() + dx, point.getY() + dy);
 //        this.repaint();
     }
     public void setRadius(int newRadius) {

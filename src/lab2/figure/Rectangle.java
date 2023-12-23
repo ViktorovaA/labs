@@ -5,21 +5,20 @@ import java.awt.*;
 
 /* прямоугольник */
 public class Rectangle extends JPanel{
-    public int x, y, width, height;
+    public Point point;
+    public int width, height;
     public Color color;
 
     public Rectangle() {
         setLayout(null);
         setOpaque(false);
-        this.x = 0;
-        this.y = 0;
+        this.point = new Point();
         this.width = 0;
         this.height = 0;
         this.color = Color.BLUE;
     }
     public Rectangle(int x, int y, int w, int h) {
-        this.x = x;
-        this.y = y;
+        this.point = new Point(x, y);
         this.width = w;
         this.height = h;
         this.color = Color.BLUE;
@@ -28,8 +27,7 @@ public class Rectangle extends JPanel{
         this.repaint();
     }
     public void moveTo(int dx, int dy) {
-        this.x += dx;
-        this.y += dy;
+        point.set(point.getX() + dx, point.getY() + dy);
     }
     public void setWidth(int newWidth) {
         this.width = newWidth;
@@ -42,6 +40,6 @@ public class Rectangle extends JPanel{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(color);
-        g.drawRect(x, y, width, height);
+        g.drawRect(point.getX(), point.getY(), width, height);
     }
 }
