@@ -1,8 +1,7 @@
 package lab2;
 
-import lab2.figure.Circle;
+import lab2.figure.*;
 import lab2.figure.Rectangle;
-import lab2.figure.Ring;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,21 +13,23 @@ public class Canvas {
     private JFrame frame;
     Circle circle;
     Rectangle rectangle;
+    Line line;
     Ring ring;
+    Face face;
     private JPanel layout;
     private JPanel btnLayout;
     private JButton btnCreateRectangle, btnCreateCircle, btnDelete, btnMoveToRectangle, btnMoveToCircle,
-            btnSetRectangleWidth, btnSetRectangleHeight, btnSetCircleRadius, btnCreateRing, btnMoveToRing,
-            btnSetRingRadius;
+            btnSetRectangleWidth, btnSetRectangleHeight, btnSetCircleRadius, btnCreateLine, btnMoveToLine,
+            btnSetLineAngle, btnSetLineLength, btnCreateRing, btnMoveToRing,
+            btnSetRingRadius, btnCreateFace, btnMoveToFace, btnSetFaceSize;
 
     public Canvas() {
 
         layout = new JPanel();
         layout.setLayout(new BorderLayout());
-        layout.setLayout(new BorderLayout());
 
         btnLayout = new JPanel();
-        btnLayout.setLayout(new GridLayout(2, 6, 10, 10));
+        btnLayout.setLayout(new GridLayout(4, 6, 10, 10));
 
         // создание кнопок
         btnCreateRectangle = new JButton("Создать прямоугольник");
@@ -38,9 +39,16 @@ public class Canvas {
         btnSetRectangleWidth = new JButton("ширина");
         btnSetRectangleHeight = new JButton("высота");
         btnSetCircleRadius = new JButton("радиус");
+        btnCreateLine = new JButton("Создать отрезок");
+        btnMoveToLine = new JButton("переместить отрезок");
+        btnSetLineAngle = new JButton("повернуть отрезок");
+        btnSetLineLength = new JButton("длина отрезка");
         btnCreateRing = new JButton("создать кольцо");
         btnMoveToRing = new JButton("переместить кольцо");
         btnSetRingRadius = new JButton("радиус кльца");
+        btnCreateFace = new JButton("создать лицо");
+        btnMoveToFace = new JButton("переместить лицо");
+        btnSetFaceSize = new JButton("размер лица");
 
         //listener
         btnCreateRectangle.addActionListener(new BListener(this));
@@ -51,9 +59,19 @@ public class Canvas {
         btnSetRectangleHeight.addActionListener(new BListener(this));
         btnSetCircleRadius.addActionListener(new BListener(this));
 
+        btnCreateLine.addActionListener(new BListener(this));
+        btnMoveToLine.addActionListener(new BListener(this));
+        btnSetLineAngle.addActionListener(new BListener(this));
+        btnSetLineLength.addActionListener(new BListener(this));
+
         btnCreateRing.addActionListener(new BListener(this));
         btnMoveToRing.addActionListener(new BListener(this));
         btnSetRingRadius.addActionListener(new BListener(this));
+
+        btnCreateFace.addActionListener(new BListener(this));
+        btnMoveToFace.addActionListener(new BListener(this));
+        btnSetFaceSize.addActionListener(new BListener(this));
+
 
 
         //add
@@ -66,9 +84,18 @@ public class Canvas {
         btnLayout.add(btnMoveToCircle);
         btnLayout.add(btnSetCircleRadius);
 
+        btnLayout.add(btnCreateLine);
+        btnLayout.add(btnMoveToLine);
+        btnLayout.add(btnSetLineAngle);
+        btnLayout.add(btnSetLineLength);
+
         btnLayout.add(btnCreateRing);
         btnLayout.add(btnMoveToRing);
         btnLayout.add(btnSetRingRadius);
+
+        btnLayout.add(btnCreateFace);
+        btnLayout.add(btnMoveToFace);
+        btnLayout.add(btnSetFaceSize);
 
         int width = 1000;
         int height = 500;
@@ -85,6 +112,8 @@ public class Canvas {
 
         circle = null;
         rectangle = null;
+        ring = null;
+        face = null;
     }
     class BListener implements ActionListener {
         Canvas canvas;
@@ -121,6 +150,7 @@ public class Canvas {
 //                canvas.layout.revalidate();
                 canvas.layout.repaint();
             }
+
             if (e.getSource() == btnCreateCircle) {
                 if(circle != null) return;
 
@@ -143,6 +173,38 @@ public class Canvas {
 //                canvas.layout.revalidate();
                 canvas.layout.repaint();
             }
+
+            if (e.getSource() == btnCreateLine) {
+                if(line != null) return;
+
+                line = new Line(400, 200, 70, 90);
+                canvas.layout.add(line);
+                canvas.layout.validate();
+                canvas.layout.repaint();
+            }
+            // передвинуть отрезок
+            if (e.getSource() == btnMoveToLine) {
+                if(line == null) return;
+
+                line.moveTo((int) (Math.random() * 100) - 50, (int) (Math.random() * 100) - 50);
+                canvas.layout.revalidate();
+                canvas.layout.repaint();
+            }
+            if (e.getSource() == btnSetLineAngle) {
+                if(line == null) return;
+
+                line.setAngle((int) (Math.random() * 360) - 180);
+                canvas.layout.revalidate();
+                canvas.layout.repaint();
+            }
+            if (e.getSource() == btnSetLineLength) {
+                if(line == null) return;
+
+                line.setLength((int) (Math.random() * 200) - 100);
+                canvas.layout.revalidate();
+                canvas.layout.repaint();
+            }
+
             if (e.getSource() == btnCreateRing) {
                 if(ring != null) return;
 
@@ -162,6 +224,29 @@ public class Canvas {
                 if(ring == null) return;
 
                 ring.moveTo((int) (Math.random() * 100) - 50, (int) (Math.random() * 100) - 50);
+//                canvas.layout.revalidate();
+                canvas.layout.repaint();
+            }
+
+            if (e.getSource() == btnCreateFace) {
+                if(face != null) return;
+
+                face = new Face(200, 200, 50);
+                canvas.layout.add(face);
+                canvas.layout.revalidate();
+//                canvas.layout.repaint();
+            }
+            if (e.getSource() == btnSetFaceSize) {
+                if(face == null) return;
+
+                face.setSize((int) (Math.random() * 100));
+//                canvas.layout.revalidate();
+                canvas.layout.repaint();
+            }
+            if (e.getSource() == btnMoveToFace) {
+                if(face == null) return;
+
+                face.moveTo((int) (Math.random() * 100) - 50, (int) (Math.random() * 100) - 50);
 //                canvas.layout.revalidate();
                 canvas.layout.repaint();
             }
